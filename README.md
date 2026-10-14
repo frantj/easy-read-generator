@@ -36,6 +36,7 @@ npm install
 ```
 OPENAI_API_KEY=sk-...
 ```
+Optionally set `OPENAI_MODEL` to override the model (defaults to `gpt-6-luna`).
 
 3. **Run the server**
 ```bash

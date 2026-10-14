@@ -23,6 +23,7 @@ app.use(helmet({
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-6-luna';
 
 const IMAGE_MAP_PATH = path.join(__dirname, 'data', 'image-map.json');
 const DOCS_DIR = path.join(__dirname, 'data', 'documents');
@@ -285,9 +286,9 @@ INSTRUCTIONS:
 - Think about what a reader would expect to SEE next to each sentence
 - VARY your choices — do NOT repeat the same keyword for many sentences. Use different images to keep the document visually interesting
 - Prefer images of OBJECTS, ACTIONS, and PEOPLE over abstract symbols like "document" or "information"
-- "document" and "clipboard" should only be used for sentences literally about documents, forms, or lists
+- "document" should only be used for sentences literally about documents, forms, or lists
 - For sentences about body parts or personal care, prefer: hair, scissors, shower, wash, grooming
-- For sentences about safety or protection, prefer: gloves, shield, warning, caution
+- For sentences about safety or protection, prefer: shield, warning, caution
 - For sentences about time or waiting, prefer: clock, time, calendar, wait
 - For sentences about mixing or preparing, prefer: cooking, mix, food
 - ONLY use keywords from the list above
@@ -345,9 +346,11 @@ async function callOpenAI(messages) {
         'Authorization': `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: OPENAI_MODEL,
+        // GPT-4.x models reject reasoning_effort; keep it off so OPENAI_MODEL can roll back
+        ...(!OPENAI_MODEL.startsWith('gpt-4') && { reasoning_effort: 'none' }),
         temperature: 0.3,
-        max_tokens: 4000,
+        max_completion_tokens: 4000,
         messages
       }),
       signal: controller.signal,

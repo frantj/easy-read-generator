@@ -151,9 +151,10 @@ async function suggestMapping(keyword, existingKeywords, map, mulberryCatalog) {
       'Authorization': `Bearer ${OPENAI_API_KEY}`,
     },
     body: JSON.stringify({
-      model: 'gpt-4o',
+      model: 'gpt-6-luna',
+      reasoning_effort: 'none',
       temperature: 0,
-      max_tokens: 200,
+      max_completion_tokens: 200,
       messages: [
         {
           role: 'system',
