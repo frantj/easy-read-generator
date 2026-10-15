@@ -12,7 +12,7 @@ Styled after [Easy Read Online](https://www.easy-read-online.co.uk/). Built with
 ## Features
 
 - Paste text → AI converts it to structured Easy Read (short sentences, headings, bullet points)
-- **Two-pass AI pipeline:** text generation + intelligent image selection (GPT-4o-mini)
+- **Two-pass AI pipeline:** text generation + intelligent image selection (GPT-6 Luna)
 - Results page with authentic Easy Read layout: **image on left, text on right**
 - Curated illustration library with keyword matching (expandable — drop images in folder + update JSON)
 - Styled placeholders where no matching image exists
@@ -77,8 +77,8 @@ skill/
 ## How It Works
 
 1. User pastes text and clicks "Generate Easy Read"
-2. **Pass 1:** Server sends text to GPT-4o-mini → returns structured Easy Read JSON (title, summary, sections with short sentences)
-3. **Pass 2:** Server sends all sentences + the image catalog to GPT-4o-mini → returns best image keyword per sentence
+2. **Pass 1:** Server sends text to GPT-6 Luna → returns structured Easy Read JSON (title, summary, sections with short sentences)
+3. **Pass 2:** Server sends all sentences + the image catalog to GPT-6 Luna → returns best image keyword per sentence
 4. Client renders the Easy Read layout with matched images
 5. User can copy, download, print, or share via link
 
@@ -111,7 +111,7 @@ Once the skill is installed, ask Claude something like "make this Easy Read" and
 4. Runs `scripts/validate.py`, which checks the rules (15 words or fewer per sentence, no contractions, title of 8 words or fewer, summary of 80 words or fewer, every keyword in the catalog, no image more than 3 times) and lists anything to fix
 5. Runs `scripts/build_document.py`, which makes a Word document with the image beside each sentence and an "Image credits" line at the end
 
-The site makes two GPT-4o-mini calls for steps 2 and 3. In the skill, Claude does both itself, so no API key is needed.
+The site makes two GPT-6 Luna calls for steps 2 and 3. In the skill, Claude does both itself, so no API key is needed.
 
 ### Running the scripts yourself
 
@@ -226,6 +226,7 @@ Currently deployed on **DigitalOcean App Platform**.
 ### Environment Variables
 ```
 OPENAI_API_KEY=your_key_here    # Required
+OPENAI_MODEL=gpt-6-luna          # Optional (default gpt-6-luna)
 NODE_ENV=production              # Optional (suppresses dev logging)
 PORT=3000                        # Optional (default 3000, DO sets 8080)
 ```
